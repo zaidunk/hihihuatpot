@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --color-text-primary: #2B2622;
+  --color-text-secondary: #5E554D;
+  --color-text-muted: #8A8178;
+  --color-text-accent: #B6463A;
+
+  --color-primary-red: #d0211c;
+  --color-dark-text: var(--color-text-primary);
+  --color-cream: #F6F1E7;
+  --color-card: #ffffff;
+  --color-border: #e0d8cc;
+  --color-dark: #1a0a00;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-dark-text);
+  background-color: var(--color-cream);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .hero-main-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  @media (min-width: 768px) {
+    .hero-main-heading {
+      font-size: 48px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero-main-heading {
+      font-size: 56px;
+      line-height: 1.05;
+    }
+  }
+
+  .main-section-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .main-section-heading {
+      font-size: 32px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .main-section-heading {
+      font-size: 36px;
+    }
+  }
+
+  .secondary-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  @media (min-width: 768px) {
+    .secondary-heading {
+      font-size: 22px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .secondary-heading {
+      font-size: 24px;
+    }
+  }
+
+  .main-paragraph {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0;
+    max-width: 65ch;
+  }
+  @media (min-width: 1024px) {
+    .main-paragraph {
+      font-size: 16px;
+    }
+  }
+
+  .caption-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+  @media (min-width: 1024px) {
+    .caption-text {
+      font-size: 13px;
+    }
+  }
+
+  .primary-cta-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .navbar-link-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+  }
+  @media (min-width: 1024px) {
+    .navbar-link-text {
+      font-size: 14px;
+    }
+  }
+
+  .footer-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  @media (min-width: 1024px) {
+    .footer-text {
+      font-size: 14px;
+    }
+  }
+
+  .hero-overlay {
+    background: radial-gradient(
+      circle at center,
+      rgba(43, 38, 34, 0.75) 0%,
+      rgba(43, 38, 34, 0.55) 35%,
+      rgba(43, 38, 34, 0.25) 75%,
+      rgba(43, 38, 34, 0.08) 100%
+    );
+  }
+  @media (min-width: 768px) {
+    .hero-overlay {
+      background: radial-gradient(
+        circle at center,
+        rgba(43, 38, 34, 0.65) 0%,
+        rgba(43, 38, 34, 0.40) 35%,
+        rgba(43, 38, 34, 0.15) 75%,
+        rgba(43, 38, 34, 0.05) 100%
+      );
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 90px;
+}
+@media (min-width: 768px) {
+  section {
+    scroll-margin-top: 100px;
+  }
+}
+@media (min-width: 1024px) {
+  section {
+    scroll-margin-top: 120px;
+  }
+}
+
+body {
+  margin: 0;
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./assets/background.png');
+  background-repeat: repeat;
+  background-size: 300px;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 40; /* Above content, below navbar */
+}
+
+@media (min-width: 640px) {
+  body::after {
+    background-size: 400px;
+    opacity: 0.5;
+  }
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Global button cursor states */
+button,
+[role="button"],
+a,
+select,
+input[type="submit"],
+input[type="button"] {
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled],
+[role="button"]:disabled,
+a:not([href]),
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
