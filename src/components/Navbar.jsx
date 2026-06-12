@@ -92,7 +92,7 @@ export default function Navbar() {
             >
               <img
                 src={navLogo}
-                alt="Logo HiHi Huat Pot"
+                alt="Logo Hihi Huat Pot"
                 className="h-12 w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.02] group-active:scale-100 sm:h-14"
               />
             </button>

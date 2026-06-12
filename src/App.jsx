@@ -289,7 +289,7 @@ function App() {
           >
             <img
               src={bannerImage}
-              alt="Banner HiHi Huat Pot"
+              alt="Banner Hihi Huat Pot"
               className="h-full w-full object-cover"
             />
           </motion.div>
@@ -657,7 +657,7 @@ function App() {
               </motion.div>
               <motion.div variants={imageReveal} className="flex h-[300px] w-full overflow-hidden rounded-3xl border border-[var(--color-border)] bg-slate-200">
                 <iframe
-                  title="Peta Lokasi HiHi Huat Pot"
+                  title="Peta Lokasi Hihi Huat Pot"
                   src="https://maps.google.com/maps?q=Hihi%20Huat%20Pot,%20Kelapa%20Gading&t=&z=17&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
@@ -707,7 +707,7 @@ function App() {
                 <div className="w-[180px] sm:w-[220px] max-w-[70%]">
                   <img
                     src={footerLogo}
-                    alt="Logo HiHi Huat Pot"
+                    alt="Logo Hihi Huat Pot"
                     className="block h-auto w-full object-contain"
                   />
                 </div>
@@ -764,7 +764,7 @@ function App() {
               </div>
             </div>
             <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--color-border)] pt-6 caption-text text-[var(--color-cream)]/70">
-              <span>© 2025 HiHi Huat Pot. All rights reserved.</span>
+              <span>© 2025 Hihi Huat Pot. All rights reserved.</span>
               <span>Mall Kelapa Gading 5, Lantai 3, Jakarta</span>
             </div>
           </div>
