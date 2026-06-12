@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { ReactLenis } from 'lenis/react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
 import {
   Calendar,
   Clock,
   Link,
   MapPin,
   Phone,
+  X,
 } from 'lucide-react'
 import Autoplay from 'embla-carousel-autoplay'
 import {
@@ -17,6 +18,7 @@ import {
   CarouselPrevious,
 } from './components/ui/carousel'
 import Navbar from './components/Navbar'
+import GoogleReviewsSection from './components/GoogleReviewsSection'
 
 const COLLAB_WA = "[COLLAB_WA_NUMBER]" // Ganti dengan nomor WA kolaborasi
 
@@ -33,11 +35,29 @@ import promo1 from './assets/promo_1.jpg'
 import promo2 from './assets/promo_2.jpg'
 import pandaCoin from './assets/panda holds coin.png'
 import pandaPeace from './assets/panda peace.png'
+import bannerImage from './assets/banner.jpg'
+import backgroundImage from './assets/background.png'
+import footerLogo from './assets/hihi_huat_pot_FA_logo_responsive-09.png'
+import post1 from './assets/post_1.jpg'
+import post2 from './assets/post_2.jpg'
+import post3 from './assets/post_3.jpg'
+import post4 from './assets/post_4.jpg'
+import post5 from './assets/post_5.jpg'
+import post6 from './assets/post_6.jpg'
 
-import menu1 from './assets/menu_1.png'
-import menu2 from './assets/menu_2.png'
-import menu3 from './assets/menu_3.png'
-import menu4 from './assets/menu_4.png'
+import menu1 from './assets/menu/Empress Grilled Fish.jpg'
+import menu2 from './assets/menu/Exclusive Sinchuan Suancai Fish.jpg'
+import menu3 from './assets/menu/Garlic Bomb Grilled Fish.png'
+import menu4 from './assets/menu/Green Pepper Grilled Fish.png'
+import menu5 from './assets/menu/New Style Sauce Pork Ribs.jpg'
+import menu6 from './assets/menu/Nourishing Collagen Herbal Pork Ribs Pot.png'
+import menu7 from './assets/menu/Nourishing Collagen Herbal Pork Trotters Pot.jpg'
+import menu8 from './assets/menu/Signature Chicken Soup with Abalone And Fish Maw.jpg'
+import menu9 from './assets/menu/Spicy New Style Sauce Pork Ribs.jpg'
+import menu10 from './assets/menu/Spicy Shrimp and Chicken Pot.jpg'
+import menu11 from './assets/menu/Stir Fried Chicken Pot.jpg'
+import menu12 from './assets/menu/Tom Yum Goong.jpg'
+
 
 const promoImages = [
   promo1,
@@ -45,16 +65,34 @@ const promoImages = [
 ]
 
 const menuItems = [
-  { name: 'Signature Chicken Soup with Abalone and Fish Maw', image: menu1 },
-  { name: 'Sate Babi (Original/Spicy)', image: menu2 },
-  { name: 'New-Style Sauce Pork Ribs', image: menu3 },
-  { name: 'Irisan Sapi 10 Detik', image: menu4 },
+  { name: 'Empress Grilled Fish', image: menu1 },
+  { name: 'Exclusive Sinchuan Suancai Fish', image: menu2 },
+  { name: 'Garlic Bomb Grilled Fish', image: menu3 },
+  { name: 'Green Pepper Grilled Fish', image: menu4 },
+  { name: 'New Style Sauce Pork Ribs', image: menu5 },
+  { name: 'Nourishing Collagen Herbal Pork Ribs Pot', image: menu6 },
+  { name: 'Nourishing Collagen Herbal Pork Trotters Pot', image: menu7 },
+  { name: 'Signature Chicken Soup with Abalone And Fish Maw', image: menu8 },
+  { name: 'Spicy New Style Sauce Pork Ribs', image: menu9 },
+  { name: 'Spicy Shrimp and Chicken Pot', image: menu10 },
+  { name: 'Stir Fried Chicken Pot', image: menu11 },
+  { name: 'Tom Yum Goong', image: menu12 },
 ]
 
 const footerSocial = [
   {
     label: 'Instagram',
     href: 'https://www.instagram.com/hihihuatpot/',
+    icon: Link,
+  },
+  {
+    label: 'TikTok',
+    href: 'https://www.tiktok.com/@hihihuatpot.id',
+    icon: Link,
+  },
+  {
+    label: 'Xiaohongshu',
+    href: 'https://xhslink.com/m/3j2a3Hp8I8X',
     icon: Link,
   },
   {
@@ -140,11 +178,27 @@ const btnMotions = {
   instagramFollow: {
     hover: { scale: 1.02, y: -2, boxShadow: '0 8px 20px -6px rgba(0, 149, 246, 0.4)' },
     tap: { scale: 0.98, y: 0, boxShadow: 'none' }
+  },
+  tiktokFollow: {
+    hover: { scale: 1.02, y: -2, boxShadow: '0 8px 20px -6px rgba(0, 0, 0, 0.4)' },
+    tap: { scale: 0.98, y: 0, boxShadow: 'none' }
+  },
+  xhsFollow: {
+    hover: { scale: 1.02, y: -2, boxShadow: '0 8px 20px -6px rgba(255, 36, 66, 0.4)' },
+    tap: { scale: 0.98, y: 0, boxShadow: 'none' }
   }
 }
 
 function App() {
   const prefersReducedMotion = useReducedMotion()
+  const [showPromoPopup, setShowPromoPopup] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPromoPopup(true)
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [])
 
   const motionProps = (variants) => ({
     initial: "hidden",
@@ -163,16 +217,6 @@ function App() {
       window.history.scrollRestoration = 'manual'
     }
     window.scrollTo(0, 0)
-
-    if (!window.instgrm) {
-      const script = document.createElement('script')
-      script.src = 'https://www.instagram.com/embed.js'
-      script.async = true
-      script.defer = true
-      document.body.appendChild(script)
-    } else {
-      window.instgrm.Embeds.process()
-    }
   }, [])
 
   const handleScroll = (id) => {
@@ -185,6 +229,49 @@ function App() {
   return (
     <ReactLenis root options={{ duration: 1.4, wheelMultiplier: 1.5 }}>
       <div className="text-[var(--color-dark-text)]">
+        <AnimatePresence>
+          {showPromoPopup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+              onClick={() => setShowPromoPopup(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="relative w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden rounded-3xl bg-[var(--color-cream)] shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="promo-popup-title"
+              >
+                <button
+                  onClick={() => setShowPromoPopup(false)}
+                  className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary-red)]"
+                  aria-label="Tutup promo"
+                >
+                  <X size={20} />
+                </button>
+                <div className="overflow-y-auto overflow-x-hidden w-full">
+                  <img src={promoImages[0]} alt="Promo Spesial" className="w-full h-auto block" />
+                  <div className="p-6 text-center">
+                  <h2 id="promo-popup-title" className="main-section-heading text-[var(--color-dark-text)] !text-2xl">
+                    Selamat Datang!
+                  </h2>
+                  <p className="mt-2 main-paragraph text-[var(--color-text-secondary)]">
+                    Ada kejutan spesial menanti Anda hari ini. Nikmati pengalaman bersantap hot pot terbaik bersama orang terkasih.
+                  </p>
+                </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <Navbar />
 
         {/* === SECTION: HERO === */}
@@ -192,7 +279,7 @@ function App() {
           initial="hidden"
           animate="visible"
           variants={prefersReducedMotion ? { hidden: { opacity: 0 }, visible: { opacity: 1 } } : heroStagger}
-          className="relative min-h-screen overflow-hidden"
+          className="hidden relative min-h-screen overflow-hidden"
         >
           <motion.div
             initial={{ opacity: 0, scale: 1.05 }}
@@ -201,7 +288,7 @@ function App() {
             className="absolute inset-0"
           >
             <img
-              src="/src/assets/banner.jpg"
+              src={bannerImage}
               alt="Banner HiHi Huat Pot"
               className="h-full w-full object-cover"
             />
@@ -212,7 +299,7 @@ function App() {
             transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
             className="absolute inset-0 hero-overlay pointer-events-none"
           ></motion.div>
-          <div className="absolute inset-0 bg-[url('./assets/background.png')] bg-repeat opacity-[0.25] mix-blend-overlay pointer-events-none" style={{ backgroundSize: '300px' }}></div>
+          <div className="absolute inset-0 bg-repeat opacity-[0.25] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: '300px' }}></div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -229,7 +316,7 @@ function App() {
             />
           </motion.div>
 
-          <div className="relative z-20 mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center px-4 py-20 text-center text-[var(--color-cream)]">
+          <div className="hidden relative z-20 mx-auto min-h-screen w-full max-w-4xl flex-col items-center justify-center px-4 py-20 text-center text-[var(--color-cream)]">
             <motion.h1 variants={fadeUp} className="hero-main-heading">
               Pengalaman Hot Pot Terbaik di Jakarta
             </motion.h1>
@@ -262,7 +349,7 @@ function App() {
         </motion.section>
 
         {/* === SECTION: PROMO === */}
-        <section id="promo" className="bg-[var(--color-cream)] py-16">
+        <section id="promo" className="bg-[var(--color-cream)] pt-22 pb-16">
           <motion.div {...motionProps(sectionStagger)} className="relative z-10 mx-auto w-full max-w-6xl px-4">
             <motion.div variants={fadeUpSmall} className="text-center">
               <h2 className="mt-3 main-section-heading text-[var(--color-dark-text)]">
@@ -279,7 +366,7 @@ function App() {
                   loop: true,
                 }}
                 plugins={[autoplayPlugin.current]}
-                className="mt-10 w-full max-w-3xl mx-auto relative"
+                className="mt-10 w-full max-w-xl mx-auto relative"
               >
                 <CarouselContent>
                   {promoImages.map((imgSrc, index) => (
@@ -350,23 +437,27 @@ function App() {
                 Temukan pilihan kuah, lauk, dan topping terbaik
               </p>
             </motion.div>
-            <motion.div variants={sectionStagger} className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+            <motion.div variants={sectionStagger} className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
               {menuItems.map((item) => (
                 <motion.div
                   variants={fadeUpSmall}
                   key={item.name}
-                  className="group flex flex-col overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[#2a1206] shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
+                  className="group flex flex-col overflow-hidden rounded-2xl bg-[#2a1206] shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
                 >
-                  <div className="flex aspect-square w-full items-center justify-center bg-[#1f0d05] caption-text text-[var(--color-cream)]/60 overflow-hidden">
+                  <div className="flex w-full items-center justify-center bg-[#1f0d05] caption-text text-[var(--color-cream)]/60 overflow-hidden">
                     <motion.div
                       variants={imageReveal}
-                      className="w-full h-full flex items-center justify-center bg-[#1f0d05] transition-transform duration-700 group-hover:scale-105"
+                      className="w-full flex items-center justify-center bg-[#1f0d05] transition-transform duration-700 group-hover:scale-105"
                     >
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                      {item.image ? (
+                        <img src={item.image} alt={item.name} className="w-full h-auto block object-cover" />
+                      ) : (
+                        <div className="w-full aspect-square bg-[#3a1d0f]"></div>
+                      )}
                     </motion.div>
                   </div>
-                  <div className="flex flex-1 flex-col gap-2 px-4 py-4">
-                    <h3 className="secondary-heading">{item.name}</h3>
+                  <div className="flex flex-1 flex-col gap-1 px-3 py-2.5">
+                    <h3 className="secondary-heading !text-sm md:!text-base">{item.name}</h3>
                   </div>
                 </motion.div>
               ))}
@@ -385,6 +476,9 @@ function App() {
             </motion.div>
           </motion.div>
         </section>
+
+        {/* === SECTION: GOOGLE REVIEWS === */}
+        <GoogleReviewsSection />
 
         {/* === SECTION: ANTRIAN === */}
         <section id="antrian" className="bg-[var(--color-cream)] py-16">
@@ -418,7 +512,7 @@ function App() {
         </section>
 
         {/* === SECTION: INSTAGRAM COMMUNITY FEED === */}
-        <section id="instagram" className="bg-[#fcfaf7] py-24 relative overflow-hidden">
+        <section id="instagram" className="bg-[#fcfaf7] py-12 md:py-16 relative overflow-hidden">
           <motion.img
             src={pandaPeace}
             alt="Panda Mascot"
@@ -426,15 +520,15 @@ function App() {
             animate={{ y: [0, -6, 0], rotate: [-1, 1, -1] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div {...motionProps(sectionStagger)} className="relative z-20 mx-auto w-full max-w-6xl px-4">
-            <motion.div variants={fadeUpSmall} className="text-center mb-16">
+          <motion.div {...motionProps(sectionStagger)} className="relative z-20 mx-auto w-full max-w-4xl px-4">
+            <motion.div variants={fadeUpSmall} className="text-center mb-10">
               <h2 className="main-section-heading text-[var(--color-dark-text)]">
-                Momen di HIHI HUAT POT
+                Jangan Lewatkan Update Terbaru
               </h2>
               <p className="mt-5 main-paragraph text-[var(--color-text-secondary)] mx-auto">
-                Lihat suasana asli dari pelanggan dan tim HIHI HUAT POT. Bukan cuma makan, tapi pengalaman hangat bersama.
+                Temukan promo spesial, menu favorit pelanggan, dan berbagai informasi terbaru dari HIHI HUAT POT.
               </p>
-              <div className="mt-8 flex justify-center">
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <motion.button
                   whileHover="hover"
                   whileTap="tap"
@@ -451,50 +545,68 @@ function App() {
                       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                     </svg>
                   </motion.div>
-                  Follow Us
+                  Instagram
+                </motion.button>
+
+                <motion.button
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={{ hover: btnMotions.tiktokFollow.hover, tap: btnMotions.tiktokFollow.tap }}
+                  transition={buttonTransition}
+                  type="button"
+                  onClick={() => handleExternalOpen('https://www.tiktok.com/@hihihuatpot.id')}
+                  className="primary-cta-text inline-flex items-center gap-2 rounded-xl bg-[#000000] px-6 py-2.5 text-white transition-colors hover:bg-[#333333] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#000000]"
+                >
+                  <motion.div variants={{ hover: { x: 2, opacity: 0.9 } }} transition={{ duration: 0.3 }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.97-1.58 4.79 4.79 0 0 1-1.04-3.11h-3.34v13.56a3.89 3.89 0 1 1-3.92-3.89c.54 0 1.05.11 1.52.31v-3.48c-.49-.09-1-.13-1.52-.13a7.2 7.2 0 1 0 7.29 7.2V8.71a8.1 8.1 0 0 0 5.01 1.72V7.08a4.8 4.8 0 0 1-.03-.39z" />
+                    </svg>
+                  </motion.div>
+                  TikTok
+                </motion.button>
+
+                <motion.button
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={{ hover: btnMotions.xhsFollow.hover, tap: btnMotions.xhsFollow.tap }}
+                  transition={buttonTransition}
+                  type="button"
+                  onClick={() => handleExternalOpen('https://xhslink.com/m/3j2a3Hp8I8X')}
+                  className="primary-cta-text inline-flex items-center gap-2 rounded-xl bg-[#ff2442] px-6 py-2.5 text-white transition-colors hover:bg-[#e61e38] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff2442]"
+                >
+                  <motion.div variants={{ hover: { x: 2, opacity: 0.9 } }} transition={{ duration: 0.3 }}>
+                    <Link size={18} />
+                  </motion.div>
+                  Xiaohongshu
                 </motion.button>
               </div>
             </motion.div>
 
-            <motion.div variants={masonryStagger} className="columns-1 gap-8 sm:columns-2 lg:columns-3 space-y-8">
+            <motion.div variants={sectionStagger} className="columns-3 gap-1 sm:gap-2 max-w-3xl mx-auto">
               {[
-                'DYv5csmkssT',
-                'DYv6HkTyQuF',
-                'DYeh73qybVX',
-                'DY1DRLOzp9R',
-                'DYoJ-O5SRu0',
-                'DYmenOfyJuy',
-              ].map((shortcode, i) => (
-                <motion.div
+                { id: '1', shortcode: 'DYv5csmkssT', image: post1 },
+                { id: '2', shortcode: 'DYv6HkTyQuF', image: post2 },
+                { id: '3', shortcode: 'DYeh73qybVX', image: post3 },
+                { id: '4', shortcode: 'DY1DRLOzp9R', image: post4 },
+                { id: '5', shortcode: 'DYoJ-O5SRu0', image: post5 },
+                { id: '6', shortcode: 'DYmenOfyJuy', image: post6 },
+              ].map((post, i) => (
+                <motion.a
                   variants={fadeUpSmall}
-                  key={i}
-                  className="break-inside-avoid transition-all duration-700 hover:-translate-y-1 hover:opacity-95"
+                  key={post.id}
+                  href={`https://www.instagram.com/p/${post.shortcode}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View Instagram post ${i + 1}`}
+                  className="group block w-full break-inside-avoid mb-1 sm:mb-2 overflow-hidden rounded-sm sm:rounded-md bg-slate-200 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary-red)]"
                 >
-                  <blockquote
-                    className="instagram-media"
-                    data-instgrm-permalink={`https://www.instagram.com/p/${shortcode}/?utm_source=ig_embed&amp;utm_campaign=loading`}
-                    data-instgrm-version="14"
-                    style={{
-                      background: '#FFF',
-                      border: '0',
-                      borderRadius: '24px',
-                      boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
-                      margin: '0',
-                      maxWidth: '100%',
-                      minWidth: '326px',
-                      padding: '0',
-                      width: '100%',
-                    }}
-                  >
-                    <div style={{ padding: '16px' }}>
-                      <div className="flex animate-pulse flex-col items-center justify-center gap-4 py-20 text-[var(--color-dark-text)]/40">
-                        <div className="h-10 w-10 rounded-full bg-slate-200"></div>
-                        <div className="h-4 w-32 rounded bg-slate-200"></div>
-                        <div className="h-48 w-full rounded-xl bg-slate-200"></div>
-                      </div>
-                    </div>
-                  </blockquote>
-                </motion.div>
+                  <img
+                    src={post.image}
+                    alt={`Instagram moment ${i + 1}`}
+                    loading="lazy"
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </motion.a>
               ))}
             </motion.div>
           </motion.div>
@@ -594,7 +706,7 @@ function App() {
               <div className="flex flex-col items-start gap-3">
                 <div className="w-[180px] sm:w-[220px] max-w-[70%]">
                   <img
-                    src="/src/assets/hihi_huat_pot_FA_logo_responsive-09.png"
+                    src={footerLogo}
                     alt="Logo HiHi Huat Pot"
                     className="block h-auto w-full object-contain"
                   />

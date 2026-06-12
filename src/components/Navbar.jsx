@@ -4,6 +4,7 @@ import { Dialog, DialogPanel, DialogBackdrop } from '@headlessui/react'
 import { Menu, X } from 'lucide-react'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import navLogo from '../assets/hihi_huat_pot_FA_logo_responsive-08.png'
 
 function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -90,7 +91,7 @@ export default function Navbar() {
               className="group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary-red)] rounded-xl"
             >
               <img
-                src="/src/assets/hihi_huat_pot_FA_logo_responsive-08.png"
+                src={navLogo}
                 alt="Logo HiHi Huat Pot"
                 className="h-12 w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.02] group-active:scale-100 sm:h-14"
               />
